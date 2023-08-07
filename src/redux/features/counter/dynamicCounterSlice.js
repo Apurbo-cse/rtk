@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { increment as otherIncrement } from "./counterSlice";
 
 // initial State
 const initialState = {
@@ -8,7 +9,7 @@ const initialState = {
 const dynamicCounterSlice = createSlice({
     name: "dynamicCounter",
     initialState: initialState,
-    reducers:{
+    reducers: {
         increment: (state, action) => {
             state.count += action.payload
         },
@@ -20,10 +21,18 @@ const dynamicCounterSlice = createSlice({
         }
     },
 
-    extraReducers: {
-        ["counter/increment"]: (state, action) => {
-            state.count += 1
-        }
+    // extraReducers: {
+    //     ["counter/increment"]: (state, action) => {
+    //         state.count += 1
+    //     }
+    // }
+
+    extraReducers: (builder) => {
+        builder
+            .addCase(otherIncrement, (state, action) => {
+                // handle increment action from counterSlice
+                state.count += 1
+            });
     }
 })
 
